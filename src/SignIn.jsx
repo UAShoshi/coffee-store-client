@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "./provider/AuthProvider";
+import axios from "axios";
 
 
 const SignIn = () => {
@@ -22,17 +23,24 @@ const SignIn = () => {
         email,
         lastLoginAt: result.user?.metadata?.lastSignInTime
       };
-      fetch('https://coffee-store-server-pink-alpha.vercel.app/user',{
-        method: 'PATCH',
-        headers: {
-          'content-type' : 'application/json'
-        },
-        body: JSON.stringify(user)
-      })
-      .then(res => res.json())
+
+      axios.patch('http://localhost:5000/user', user)
       .then(data => {
-        console.log(data);
+        console.log(data.data);
       })
+
+      // update last login a database
+      // fetch('http://localhost:5000/user',{
+      //   method: 'PATCH',
+      //   headers: {
+      //     'content-type' : 'application/json'
+      //   },
+      //   body: JSON.stringify(user)
+      // })
+      // .then(res => res.json())
+      // .then(data => {
+      //   console.log(data);
+      // })
      })
      .catch(error => {
       console.error(error);
